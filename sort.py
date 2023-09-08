@@ -85,7 +85,7 @@ class FileSorter:
     
 
 if __name__ == "__main__":
-    path = str(input("Шлях до папки (в форматі: C:\Users\life\Desktop\some_rbbish ) ==> "))
+    path = str(input("Шлях до папки ==> (C:|Users|katya|Documents|Game)"))
     sorter = FileSorter(path)
     sorter.sort_files()
     sorter.print_results()
