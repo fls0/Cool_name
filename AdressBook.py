@@ -3,7 +3,8 @@ from datetime import datetime
 import pickle
 import re
 from dateparser import parse
-import json
+from prompt_toolkit import prompt
+from prompt_tool import Completer, RainbowLetter
 
 
 class Field:
@@ -147,14 +148,20 @@ def input_error(func):
 
 @input_error
 def command_add(input_str):
-    _, name, phone, birthday, email, adress = input_str.split()
-    name = name.title()
-    name = Name(name)
-    phone = Phone(phone)
-    birthday = Birthday(birthday)
-    email = Email(email)
-    adress = Adress(adress)
-    contacts = Record(name, phone, birthday, email, adress)
+    # _, name, phone, birthday, email, adress = input_str.split()
+    # name = name.title()
+    # name = Name(name)
+    # phone = Phone(phone)
+    # birthday = Birthday(birthday)
+    # email = Email(email)
+    # adress = Adress(adress)
+    # contacts = Record(name, phone, birthday, email, adress)
+    name = input("Введіть ім'я: ")
+    phone = input('Введіть номер: ')
+    birthday = input('Введіть дату народження: ')
+    email = input('Введіть email-пошту: ')
+    adress = input('Введіть адрессу: ')
+    contacts = Record(Name(name), Phone(phone), Birthday(birthday), Email(email), Adress(adress))
     contact_list.add_record(contacts)
     return f"Contact {name} has been added."
 
@@ -195,18 +202,31 @@ def command_show_all(contact_list):
         result += f"{name}: {value.phone.value, str(value.birthday.value), value.email.value, value.adress.value}\n"
     return result.strip()
 
+def command_days_to_birthday(input_str):
+    result = ''
+    _, days = input_str.split()
+    d_now = datetime.now().date()
+    for key, value in contact_list.items():
+        birthday = value.birthday.value
+        birthday = birthday.replace(year=d_now.year)
+        days_to_br = d_now.replace(day=d_now.day+int(days))
+        if d_now <= birthday <= days_to_br:
+            result += f'{key} have birthday in next {days} days. {value.birthday}\n'
+        else:
+            continue
+    return result.strip() if result else f'No birthdays in next {days} days'
+
+
 
 def main():
     contact_list.load()
-    # contact_list.load()
-    print("Доступні команди:'hello','add','change', 'delete', 'search','show all','good bye','close','exit'" '\n' 'Для додвання контакту: Імя номер др емейл')
+    print("Доступні команди:'hello','add','change', 'delete', 'search', 'birthday', 'show all','good bye','close','exit'")
     while True:
-        # Сделать принт инструкцию по додаванию!
-        input_str = input("Enter command: ").lower().strip()
+        input_str = prompt("Enter your command: ", completer = Completer, lexer = RainbowLetter())
 
         if input_str == "hello":
             print("How can I help you?")
-        elif input_str.startswith("add "):
+        elif input_str.startswith("add"):
             print(command_add(input_str))
         elif input_str.startswith("change "):
             print(command_change(input_str))
@@ -214,6 +234,8 @@ def main():
             print(command_delete(input_str))
         elif input_str.startswith("search "):
             print(command_search(input_str))
+        elif input_str.startswith("birthday "):
+            print(command_days_to_birthday(input_str))
         elif input_str == "show all":
             print(command_show_all(contact_list))
         elif input_str in ["good bye", "close", "exit"]:
@@ -221,7 +243,6 @@ def main():
             break
         else:
             print("Невірно введена команда. Доступні команди:'hello','add','change','phone','show all','good bye','close','exit'")
-        # contact_list.dump()
         contact_list.dump()
 
 
@@ -262,13 +283,6 @@ if __name__ == "__main__":
     ab.add_record(rec_3)
     ab.add_record(rec_4)
 
-    print(rec_1.adress)
-    print(rec_2.adress)
-
     print('All Ok')
-
-    print(rec_1.birthday)
-    print(rec_2.birthday)
-    print(rec_3.birthday)
-    print(rec_4.birthday)
+    
     main()
