@@ -1,5 +1,5 @@
 from collections import UserDict
-from datetime import datetime
+from datetime import datetime, timedelta
 import pickle
 import re
 from dateparser import parse
@@ -30,21 +30,13 @@ class Name(Field):
 
 class Phone(Field):
     @Field.value.setter
-    def phone_number(self, value):  # для перевірки в візьмемо український номер
-        flag = True
+    def value(self, value):
         for i in value:
-            if i.isdigit() or i in '+':
+            if i.isdigit() or i in '+()':
                 continue
             else:
-                flag = False
-                return f'Wrong number'
-        if flag:
-            if value.startswith('+38') and len(value) == 13:
-                self._value = value
-            elif len(value) == 10:
-                self._value = value
-        else:
-            return f'Wrong number'
+                raise TypeError
+        self._value = value
 
 
 class Birthday(Field):
@@ -53,7 +45,7 @@ class Birthday(Field):
             obj_datetime = parse(value)
             return obj_datetime.date()
         except Exception:
-            raise 'Wrong data type. Try "dd-mm-yy"'
+            raise TypeError('Wrong data type. Try "dd-mm-yy"')
 
     @Field.value.setter
     def value(self, value):
@@ -62,12 +54,12 @@ class Birthday(Field):
 
 class Email(Field):
     @Field.value.setter
-    def validate_email(self, value: str):
+    def value(self, value: str):
         regex = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,7}\b'
         if re.fullmatch(regex, value):
             self._value = value
         else:
-            return f'Wrong email'
+            raise TypeError(f'Wrong email')
 
 
 class Adress(Field):
@@ -111,6 +103,7 @@ class AddressBook(UserDict):
     def update_record(self, record: Record):
         self.data[record.name.value] = record
 
+
     def delete_record(self, name):
         self.data.pop(name)
 
@@ -136,19 +129,19 @@ def input_error(func):
         except KeyError:
             return "Contact not found."
         except ValueError:
-            return "ValueError. Please enter the name and phone number."
+            return "ValueError. Try again"
         except IndexError:
-            return "IndexError. Give me name and phone please."
+            return "IndexError. Try again"
         except NameError:
             return "Invalid input. Name should contain only letters."
         except TypeError:
-            return "Invalid input. Phone number should contain only digits."
+            return "Invalid input. Try again"
     return wrapper
 
 
-
+@input_error
 def command_add():
-    name = Name(input("Введіть ім'я: "))
+    name = Name(input("Введіть ім'я: ").title())
     phone = Phone(input('Введіть номер: '))
     birthday = Birthday(input('Введіть дату народження: '))
     email = Email(input('Введіть email-пошту: '))
@@ -166,17 +159,16 @@ def command_delete(input_str):
 
 
 @input_error
-def command_change(input_str):
-    _, name, phone, birthday, email, adress = input_str.split()
-    name = name.title()
-    name = Name(name)
-    phone = Phone(phone)
-    birthday = Birthday(birthday)
-    email = Email(email)
-    adress = Adress(adress)
+def command_change():
+    name = Name(input("Введіть ім'я: ").title())
+    phone = Phone(input('Введіть номер: '))
+    birthday = Birthday(input('Введіть дату народження: '))
+    email = Email(input('Введіть email-пошту: '))
+    adress = Adress(input('Введіть адрессу: '))
     update = Record(name, phone, birthday, email, adress)
     contact_list.update_record(update)
     return f"Contact {name} has been updated."
+
 
 
 @input_error
@@ -189,11 +181,16 @@ def command_search(input_str):
 def command_show_all(contact_list):
     if not contact_list:
         return "Список контактів пустий."
-    result = "Contacts:\n"
+    result = "Contacts:"
+    print(result)
+    print('------------------------------------------------------------------------------------------------------------------')
+    print('Name          |     Number     |     Birthday     |            Email             |             Adress            |')
     for name, value in contact_list.items():
-        result += f"{name}: {value.phone.value, str(value.birthday.value), value.email.value, value.adress.value}\n"
-    return result.strip()
+        print('--------------|----------------|------------------|------------------------------|-------------------------------|')
+        print('{:<14}|{:^16}|{:^18}|{:^30}|{:^30} |'.format(name, value.phone.value, str(value.birthday.value), value.email.value, value.adress.value))
+    print('------------------------------------------------------------------------------------------------------------------')
 
+@input_error
 def command_days_to_birthday(input_str):
     result = ''
     _, days = input_str.split()
@@ -201,7 +198,8 @@ def command_days_to_birthday(input_str):
     for key, value in contact_list.items():
         birthday = value.birthday.value
         birthday = birthday.replace(year=d_now.year)
-        days_to_br = d_now.replace(day=d_now.day+int(days))
+        days_to_br = timedelta(days=int(days))
+        days_to_br = d_now + days_to_br
         if d_now <= birthday <= days_to_br:
             result += f'{key} have birthday in next {days} days. {value.birthday}\n'
         else:
@@ -209,19 +207,19 @@ def command_days_to_birthday(input_str):
     return result.strip() if result else f'No birthdays in next {days} days'
 
 
-
 def main():
     contact_list.load()
     print("Доступні команди:'hello','add','change', 'delete', 'search', 'birthday', 'show all','good bye','close','exit'")
     while True:
-        input_str = prompt("Enter your command: ", completer = Completer, lexer = RainbowLetter())
+        input_str = prompt("Enter your command: ",
+                           completer=Completer, lexer=RainbowLetter())
 
         if input_str == "hello":
             print("How can I help you?")
         elif input_str.startswith("add"):
             print(command_add())
-        elif input_str.startswith("change "):
-            print(command_change(input_str))
+        elif input_str.startswith("change"):
+            print(command_change())
         elif input_str.startswith("delete "):
             print(command_delete(input_str))
         elif input_str.startswith("search "):
@@ -229,7 +227,7 @@ def main():
         elif input_str.startswith("birthday "):
             print(command_days_to_birthday(input_str))
         elif input_str == "show all":
-            print(command_show_all(contact_list))
+            command_show_all(contact_list)
         elif input_str in ["good bye", "close", "exit"]:
             print("Good bye!")
             break
