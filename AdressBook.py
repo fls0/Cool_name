@@ -37,14 +37,14 @@ class Phone(Field):
                 continue
             else:
                 flag = False
-                raise print(f'Wrong number')
+                return f'Wrong number'
         if flag:
             if value.startswith('+38') and len(value) == 13:
                 self._value = value
             elif len(value) == 10:
                 self._value = value
         else:
-            raise print(f'Wrong number')
+            return f'Wrong number'
 
 
 class Birthday(Field):
@@ -146,22 +146,14 @@ def input_error(func):
     return wrapper
 
 
-@input_error
-def command_add(input_str):
-    # _, name, phone, birthday, email, adress = input_str.split()
-    # name = name.title()
-    # name = Name(name)
-    # phone = Phone(phone)
-    # birthday = Birthday(birthday)
-    # email = Email(email)
-    # adress = Adress(adress)
-    # contacts = Record(name, phone, birthday, email, adress)
-    name = input("Введіть ім'я: ")
-    phone = input('Введіть номер: ')
-    birthday = input('Введіть дату народження: ')
-    email = input('Введіть email-пошту: ')
-    adress = input('Введіть адрессу: ')
-    contacts = Record(Name(name), Phone(phone), Birthday(birthday), Email(email), Adress(adress))
+
+def command_add():
+    name = Name(input("Введіть ім'я: "))
+    phone = Phone(input('Введіть номер: '))
+    birthday = Birthday(input('Введіть дату народження: '))
+    email = Email(input('Введіть email-пошту: '))
+    adress = Adress(input('Введіть адрессу: '))
+    contacts = Record(name, phone, birthday, email, adress)
     contact_list.add_record(contacts)
     return f"Contact {name} has been added."
 
@@ -227,7 +219,7 @@ def main():
         if input_str == "hello":
             print("How can I help you?")
         elif input_str.startswith("add"):
-            print(command_add(input_str))
+            print(command_add())
         elif input_str.startswith("change "):
             print(command_change(input_str))
         elif input_str.startswith("delete "):
@@ -284,5 +276,5 @@ if __name__ == "__main__":
     ab.add_record(rec_4)
 
     print('All Ok')
-    
+
     main()
