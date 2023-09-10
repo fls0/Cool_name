@@ -1,2 +1,2 @@
-# Cool_name
+# PythonWizards
 Group-12 team project
