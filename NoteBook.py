@@ -77,7 +77,7 @@ class Manager:
             note.created_at = datetime.now().strftime('%Y-%m-%d %H:%M')  # Он  # Оновлюємо дату створення
 
     def delete_note(self, note_index):
-        if 0 <= note_index < len(self.notes):
+        # if 0 <= note_index < len(self.notes):
             del self.notes[note_index]
 
     def search_notes_by_tag(self, tag):
@@ -85,6 +85,13 @@ class Manager:
 
     def search_notes_by_content(self, keyword):
         return [note for note in self.notes if keyword.lower() in note.content.lower()]
+    
+    def display_note(self, index, note):
+        print(f"Note {index + 1}:")
+        print(f"Title: {note.title.upper()}")
+        print(f"Content: {note.content}")
+        print(f"Tags: {', '.join(note.tags)}")
+        print(f"Created At: {note.created_at}")
     
     def display_notes(self):
         for i, note in enumerate(self.notes):
@@ -117,32 +124,25 @@ def input_index(note_manager):
         return index     
       
 def main():
-    #print_logo()
-    #print("\n"* 15)
+    # print_logo()
+    # print("\n"* 15)
     storage_path = 'notes.json'
     note_manager = Manager(storage_path)
     note_manager.upload_notes()
 
     while True:
-        # print("\nOptions:")
-        # print("1. Add a Note")
-        # print("2. Edit a Note")
-        # print("3. Delete a Note")
-        # print("4. Search by Tag")
-        # print("5. Search by Content")
-        # print("6. Display Notes")
-        # print("7. Exit")
-        # choice = prompt("Enter your choice: ", completer = Completer, lexer = RainbowLexer())
+       
         choice = prompt('Enter your command: ', completer = Completer, lexer = RainbowLexer())
        
-        if choice == 'Add a Note':
-            # title = input("Enter note title: ")
-            title =     prompt("Enter note title: ", lexer = RainbowLexer())
-            content =   prompt("Enter note content: ", lexer = RainbowLexer())
-            tags =      prompt("Enter tags (comma-separated): ", lexer = RainbowLexer()).split(',')
-            note_manager.add_note(title, content, tags)
-            note_manager.save_notes()
-            print(Fore.GREEN + "Note added!")
+        if choice == 'Add a Note':            
+            title =         prompt("Type new note title: (or press 'Enter' to return)", lexer = RainbowLexer())
+            if title:
+                content =   prompt("Enter note content: ", lexer = RainbowLexer())
+                input_tags =      prompt("Enter tags (comma-separated): ", lexer = RainbowLexer())
+                tags = [tag.strip() for tag in input_tags.split(',') if tag.strip()]
+                note_manager.add_note(title, content, tags)
+                note_manager.save_notes()
+                print(Fore.GREEN + "Note added!")
 
         elif choice == 'Edit a Note':
             while True:
@@ -151,10 +151,21 @@ def main():
                     break       
                 elif isinstance(index, str):  # Перевірка, чи результат - рядок
                     print(index, ", Please enter a valid number")  # Виводимо повідомлення про помилку
-                    continue                
-                title   =     prompt("Enter new title: ", lexer = RainbowLexer())
-                content =     prompt("Enter new content: ", lexer = RainbowLexer())
-                tags    =     prompt("Enter new tags (comma-separated): ", lexer = RainbowLexer()).split(',')
+                    continue
+                print("Old title: ", note_manager.notes[index].title.upper())                
+                title   =     prompt("Enter new title: (or press 'Enter' to skip)", lexer = RainbowLexer())
+                if not title:
+                    title = note_manager.notes[index].title
+                print("Old content: ", note_manager.notes[index].content)
+                content =     prompt("Enter new content: (or press 'Enter' to skip)", lexer = RainbowLexer())
+                if not content:
+                    content = note_manager.notes[index].content
+                print("Old tags: ", note_manager.notes[index].tags)
+                input_tags    =     prompt("Enter new tags (comma-separated) (or press 'Enter' to skip): ", lexer = RainbowLexer())
+                if input_tags == '':
+                    tags = note_manager.notes[index].tags
+                else:
+                    tags = [tag.strip() for tag in input_tags.split(',') if tag.strip()]
                 note_manager.edit_note(index, title, content, tags)
                 note_manager.save_notes()
                 print(Fore.GREEN + "Note edited!")
@@ -168,6 +179,11 @@ def main():
                 elif isinstance(index, str):  # Перевірка, чи результат - рядок
                     print(index, ", Please enter a valid number")  # Виводимо повідомлення про помилку
                     continue
+                note = note_manager.notes[index]
+                note_manager.display_note(index, note)
+                to_delete = input("Delete? Press 'Y'+'Enter' -> Yes; Press 'Enter' -> No >>")
+                if to_delete.lower() != 'y':
+                    break
                 note_manager.delete_note(index)
                 note_manager.save_notes()
                 print(Fore.GREEN + "Note deleted!")
@@ -202,16 +218,9 @@ def main():
         elif choice == 'Display Notes':
             note_manager.display_notes()
 
-        elif choice == "Sort":
-            # Вкладене меню для сортування
-            # print("Меню сортування:")
-            # print("1. За іменем")
-            # print("2. За тегами")
-            # print("3. За часом створення")
-
+        elif choice == "Sort":            
             sort_choice = prompt(f'{" > "*10}Enter sort type: ', completer = Sort_Completer, lexer = RainbowLexer())
-            # sort_choice = input("Виберіть метод сортування: ")
-            
+                       
             if sort_choice == "Sort by name":
                 sorted_notes = note_manager.sort_notes(by_name=True)
             elif sort_choice == "Sort by tags":
@@ -221,7 +230,7 @@ def main():
             else:
                 print("Невірний вибір сортування")
                 continue
-            #________________________________________________________________
+          
             if sorted_notes:
                 for note in sorted_notes: 
                     print(f"Title: {note.title.upper()}") 
