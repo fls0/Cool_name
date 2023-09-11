@@ -126,6 +126,7 @@ def main():
     storage_path = 'notes.json'
     note_manager = Manager(storage_path)
     note_manager.upload_notes()
+    print("Доступні команди:'Add a Note','Edit a Note','Delete a Note', 'Search by Tag', 'Search by Content', 'Display Notes','Sort','Exit'")
 
     while True:
        
@@ -215,7 +216,8 @@ def main():
         elif choice == 'Display Notes':
             note_manager.display_notes()
 
-        elif choice == "Sort":            
+        elif choice == "Sort":
+            print('Доступні сортування: Sort by name, Sort by tags, Sort by date')            
             sort_choice = prompt(f'{" > "*10}Enter sort type: ', completer = Sort_Completer, lexer = RainbowLexer())
                        
             if sort_choice == "Sort by name":
