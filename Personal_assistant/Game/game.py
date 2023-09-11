@@ -15,18 +15,18 @@ FONT = pygame.font.SysFont('Verdana', 20)
 
 COLOR_BLACK = (0, 0, 0)
 
-IMAGE_PATH = "moution"
+IMAGE_PATH = "Personal_assistant/Game/moution"
 PLAYER_IMAGES = os.listdir(IMAGE_PATH)
 
 main_display = pygame.display.set_mode((WIDTH, HEIGHT))
 
-bg = pygame.transform.scale( pygame.image.load('background.png'),(WIDTH,HEIGHT))
+bg = pygame.transform.scale( pygame.image.load('Personal_assistant/Game/background.png'),(WIDTH,HEIGHT))
 bg_X1 = 0
 bg_X2 = bg.get_width()
 bg_move=4
 
 player_size = (10, 10)
-player = pygame.image.load('player.png').convert_alpha() 
+player = pygame.image.load('Personal_assistant/Game/player.png').convert_alpha() 
 player_rect = player.get_rect()
 player_rect.topleft = (0, HEIGHT // 2)
 player_rect.width = player.get_width()
@@ -38,7 +38,7 @@ player_move_up    = [0 ,-5]
 
 def create_enemy():
     enemy_size = (200, 100)
-    enemy = pygame.image.load('enemy.png').convert_alpha() 
+    enemy = pygame.image.load('Personal_assistant/Game/enemy.png').convert_alpha() 
     enemy = pygame.transform.scale(enemy, enemy_size) 
     enemy_rect = pygame.Rect(WIDTH, random.randint(200,600) , *enemy_size)
     enemy_move = [random.randint(-9, -6), 0]
@@ -46,7 +46,7 @@ def create_enemy():
 
 def create_bonus():
     bonus_size = (70, 70)
-    bonus = pygame.image.load('bonus.png').convert_alpha()
+    bonus = pygame.image.load('Personal_assistant/Game/bonus.png').convert_alpha()
     bonus = pygame.transform.scale(bonus, bonus_size)   
     bonus_rect = pygame.Rect( random.randint(200,1000),0 , *bonus_size)
     bonus_move = [0,random.randint(6, 9)]
@@ -55,7 +55,7 @@ def create_bonus():
 def create_gameover():
     gameover_size = (800, 800) 
 
-    gameover = pygame.image.load('gameover.png').convert_alpha()
+    gameover = pygame.image.load('Personal_assistant/Game/gameover.png').convert_alpha()
     gameover = pygame.transform.scale(gameover, gameover_size)
 
     gameover_rect = pygame.Rect(200, 100, *gameover_size)
