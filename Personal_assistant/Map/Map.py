@@ -2,7 +2,7 @@ import folium
 import requests
 import re
 from prompt_toolkit import prompt
-from prompt_tool import RainbowLetter,Completer
+from Map.prompt_tool import RainbowLetter,Completer
 
 def command_save(file_name, map_name):
     russia_map = folium.Map(location=[55.7558, 37.6176], zoom_start=5)

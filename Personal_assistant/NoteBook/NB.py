@@ -1,7 +1,7 @@
 import json
 import os
 from datetime import datetime
-from promp_ut import Completer, RainbowLexer, Sort_Completer
+from NoteBook.promp_ut import Completer, RainbowLexer, Sort_Completer
 from prompt_toolkit import prompt
 from colorama import init, Fore, Style
 
@@ -237,7 +237,7 @@ def main():
                     print("-" * 30)        
 
         elif choice == 'Exit':
-            print(Fore.GREEN + "Exiting...")
+            print("Good bye!")
             break
 
 if __name__ == "__main__":

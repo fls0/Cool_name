@@ -84,10 +84,14 @@ class FileSorter:
         print(', '.join(self.unknown_extensions))
     
 def main():
-    path = str(input("Шлях до папки ==> (C:|Users|Oleg|Documents|some_rubbish)"))
-    sorter = FileSorter(path)
-    sorter.sort_files()
-    sorter.print_results()
+    while True:    
+        print("Для відміни введіть пусту строку або 'cancel'. ")
+        path = str(input("Шлях до папки ==> (C:|Users|Oleg|Documents|some_rubbish): "))
+        if path == '' or path == 'cancel':
+            break
+        sorter = FileSorter(path)
+        sorter.sort_files()
+        sorter.print_results()
 
 if __name__ == "__main__":
     main()
