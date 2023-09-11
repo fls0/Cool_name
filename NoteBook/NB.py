@@ -4,7 +4,6 @@ from datetime import datetime
 from promp_ut import Completer, RainbowLexer, Sort_Completer
 from prompt_toolkit import prompt
 from colorama import init, Fore, Style
-from prinLogo import print_logo
 
 def input_error(inner):
     def wrap(*args):        
@@ -124,8 +123,6 @@ def input_index(note_manager):
         return index     
       
 def main():
-    # print_logo()
-    # print("\n"* 15)
     storage_path = 'notes.json'
     note_manager = Manager(storage_path)
     note_manager.upload_notes()
