@@ -209,7 +209,7 @@ def command_days_to_birthday(input_str):
     return result.strip() if result else f'No birthdays in next {days} days'
 
 def main():
-    # contact_list.load()
+    contact_list.load()
     print("Доступні команди:'hello','add','change', 'delete', 'search', 'birthday', 'show all','good bye','close','exit'")
     while True:
         input_str = prompt("Enter your command: ",completer=Completer, lexer=RainbowLetter())
