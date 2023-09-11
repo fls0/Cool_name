@@ -83,9 +83,11 @@ class FileSorter:
         print('Невідомі розширення:')
         print(', '.join(self.unknown_extensions))
     
-
-if __name__ == "__main__":
-    path = str(input("Шлях до папки ==> (C:|Users|katya|Documents|Game)"))
+def main():
+    path = str(input("Шлях до папки ==> (C:|Users|Oleg|Documents|some_rubbish)"))
     sorter = FileSorter(path)
     sorter.sort_files()
     sorter.print_results()
+
+if __name__ == "__main__":
+    main()
