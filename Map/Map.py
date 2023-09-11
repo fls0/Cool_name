@@ -1,6 +1,8 @@
 import folium
 import requests
 import re
+from prompt_toolkit import prompt
+from prompt_tool import RainbowLetter,Completer
 
 def command_save(file_name, map_name):
     russia_map = folium.Map(location=[55.7558, 37.6176], zoom_start=5)
@@ -22,7 +24,8 @@ def command_save(file_name, map_name):
             ).add_to(russia_map)
 
     russia_map.save(map_name)
-    print(f"Карта з  прапорцями збережена у файлі {map_name}.")
+    return map_name
+    
 
 def input_error(func):
     def wrapper(*args):
@@ -49,11 +52,9 @@ def get_coordinates(city_name):
         coordinates = lat, lng
     
     if coordinates:
-        print(f"Координати міста {city_name}:")
-        print(f"Широта: {lat}")
-        print(f"Довгота: {lng}")
+        return f"Координати міста {city_name}: \n Широта: {lat} \n Довгота: {lng}"  
     else:
-        print(f"Не вдалося знайти координати для міста {city_name}.")
+        return f"Не вдалося знайти координати для міста {city_name}."
 
 
 def check_coordinates(file_name, coordinates):
@@ -71,11 +72,12 @@ def add_coordinates(file_name, coordinates):
         if re.match(pattern, coordinates):
             with open(file_name, 'a') as file:
                 file.write('\n'+ coordinates)
-                print(f"Координати {coordinates} були додані до файлу.")
+                return f"Координати {coordinates} були додані до файлу."
         else:
-            print(f"Координати {coordinates} мають неправильний формат.")
+
+            return f"Координати {coordinates} мають неправильний формат."
     else:
-        print(f"Координати {coordinates} вже існують у файлі.")
+        return f"Координати {coordinates} вже існують у файлі."
 
 def main(): 
     print("Вітаю. Доступні команди:")
@@ -91,14 +93,17 @@ def main():
     while True:
       
 
-        input_str = input("Enter command: ").lower().strip()
+        input_str = prompt("Enter command: ", completer = Completer , lexer = RainbowLetter())
         
         if  input_str.startswith("save_nuclear"):
-            print(command_save('coordinates_nuclear.txt','russia_map_nuclear.html'))  
+            result =command_save('coordinates_nuclear.txt','russia_map_nuclear.html')
+            print(f"Карта з  прапорцями збережена у файлі {result}.")  
         elif input_str.startswith("save_air"):
-            print(command_save('coordinates_air.txt','russia_map_air.html'))  
+            result = command_save('coordinates_air.txt','russia_map_air.html')
+            print(f"Карта з  прапорцями збережена у файлі {result}.") 
         elif input_str.startswith("save_admin"):
-            print(command_save('coordinates_admin.txt','russia_map_admin.html'))  
+            result =command_save('coordinates_admin.txt','russia_map_admin.html')
+            print(f"Карта з  прапорцями збережена у файлі {result}.")   
         elif input_str == "add_nuclear":
             input_str = input("Приклад: 55.7558,37.6176. Введіть нові кординати:")
             print(add_coordinates('coordinates_nuclear.txt', input_str))
@@ -107,10 +112,10 @@ def main():
             print(add_coordinates('coordinates_air.txt', input_str))
         elif input_str == "add_admin":
             input_str = input("Приклад: 55.7558,37.6176. Введіть нові кординати:")
-            print(add_coordinates('coordinates_admin.txt', input_str)) 
+            print(add_coordinates('coordinates_admin.txt', input_str))
         elif input_str == "coordinates":
             input_str = input("Приклад: Москва. Введіть назву міста:")
-            print(get_coordinates(input_str))          
+            print(get_coordinates(input_str))         
         elif input_str in ["good bye", "close", "exit"]:
             print("Good bye!")
             break
