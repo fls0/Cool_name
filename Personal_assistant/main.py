@@ -2,7 +2,7 @@ from AdressBook.AB import main as ab_main
 from NoteBook.NB import main as nb_main
 from Map.Map import main as map_main
 from sort.sort import main as sort_main
-# import os
+from Game.game import main as game_main
 
 
 if __name__ == '__main__':
@@ -19,7 +19,6 @@ if __name__ == '__main__':
         elif choice == '4':
             sort_main()
         elif choice == '5':
-            pass
-            # os.system('Personal_assistant/Game/game.py')
+            game_main()
         elif choice == '0':
             break
