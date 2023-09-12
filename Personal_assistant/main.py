@@ -11,8 +11,9 @@ def cls():
 
 if __name__ == '__main__':
     cls()
-    print('MENU')
     while True:
+        cls()
+        print('MENU')
         choice = input(
             'Вітаю, я ваш персональний помічник.\nОберіть функцію:\n1.Записна книжка\n2.Нотатник\n3.Карта\n4.Сортування папки\n5.Гра\n0.Вихід\n')
         if choice == '1':
