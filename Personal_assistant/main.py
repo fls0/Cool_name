@@ -10,6 +10,7 @@ def cls():
 
 
 if __name__ == '__main__':
+    cls()
     print('MENU')
     while True:
         choice = input(
