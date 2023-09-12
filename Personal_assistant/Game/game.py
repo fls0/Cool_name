@@ -156,6 +156,8 @@ def main():
         enemies = [enemy for enemy in enemies if enemy[1].left >= 0]
     
         bonuses = [bonus for bonus in bonuses if bonus[1].bottom <= HEIGHT]
+    pygame.quit()
+pygame.QUIT
 
 if __name__ == "__main__":
     main()
