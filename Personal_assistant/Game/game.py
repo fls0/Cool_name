@@ -67,7 +67,7 @@ def main():
         gameover, gameover_rect = create_gameover()
         main_display.blit(gameover, gameover_rect)
         pygame.display.flip()
-        pygame.time.delay(2000)
+        pygame.time.delay(10)
     
     
     
