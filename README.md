@@ -10,7 +10,6 @@ Group-12 team project "Personal_assistant"
 6.Гра
 
 1.Інструкція встановлення:
-$env:PYTHONPATH = "C:\шлях\до\папки\з_цим_файлом" + $env:PYTHONPATH (треба ввести в першу чергу, вказавши адресу папки з кодом)
 pip install -r requirements (встановлює всі нетсандартні бібліоткеи що були використані в коді)
 pip install Personal_assistant (встановлює як пакет)
 python Personal_assistant.py запускає

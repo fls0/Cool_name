@@ -5,6 +5,7 @@ setup(
     version='0.0.1',
     description='Group-12 team project',
     authors='PythonWizards',
+    license='MIT',
     install_requires=[
         'dateparser==1.0.0'
         'prompt_toolkit==3.0.21'
@@ -14,4 +15,5 @@ setup(
         'colorama==0.4.4'
         'dill>=0.3.7'
         ],
+    entry_points={'console_scripts': ['personal_assistant = Personal_assistant.main']}
 )
