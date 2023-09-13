@@ -8,8 +8,7 @@ import os
 def cls():
     os.system(['clear','cls'][os.name == 'nt'])
 
-
-if __name__ == '__main__':
+def menu():
     cls()
     while True:
         cls()
@@ -33,3 +32,6 @@ if __name__ == '__main__':
             game_main()
         elif choice == '0':
             break
+
+if __name__ == '__main__':
+    menu()
