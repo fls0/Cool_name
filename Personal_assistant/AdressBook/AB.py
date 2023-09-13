@@ -239,39 +239,3 @@ def main():
 if __name__ == "__main__":
     main()
 
-    # name_1 = Name('Bill')
-    # phone_1 = Phone('1234567890')
-    # b_day_1 = Birthday('1992-04-04')
-    # email_1 = Email('asda@gmail.com')
-    # adress_1 = Adress('Pushkina 28')
-
-    # name_2 = Name('Serg')
-    # phone_2 = Phone('1234567890')
-    # b_day_2 = Birthday('1995.3.2')
-    # email_2 = Email('asd.a@gmail.com')
-    # adress_2 = Adress('Pushkina 28')
-
-    # name_3 = Name('Oleg')
-    # phone_3 = Phone('1234567890')
-    # b_day_3 = Birthday('2 02 1967')
-    # email_3 = Email('asd123a@gmail.com')
-    # adress_3 = Adress('Pushkina 28')
-
-    # name_4 = Name('Max')
-    # phone_4 = Phone('1234567890')
-    # b_day_4 = Birthday('19*02*1999')
-    # email_4 = Email('asda.123@gmail.com')
-    # adress_4 = Adress('Pushkina 28')
-
-    # rec_1 = Record(name_1, phone_1, b_day_1, email_1, adress_1)
-    # rec_2 = Record(name_2, phone_2, b_day_2, email_2, adress_2)
-    # rec_3 = Record(name_3, phone_3, b_day_3, email_3, adress_3)
-    # rec_4 = Record(name_4, phone_4, b_day_4, email_4, adress_4)
-    # ab = AddressBook()
-
-    # ab.add_record(rec_1)
-    # ab.add_record(rec_2)
-    # ab.add_record(rec_3)
-    # ab.add_record(rec_4)
-
-    # print('All Ok')
