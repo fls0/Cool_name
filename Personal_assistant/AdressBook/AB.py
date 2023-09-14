@@ -1,10 +1,11 @@
 from collections import UserDict
 from datetime import datetime, timedelta
+import os
 import dill as pickle
 import re
 from dateparser import parse
 from prompt_toolkit import prompt
-from AdressBook.prompt_tool import Completer, RainbowLetter
+from .prompt_tool import Completer, RainbowLetter
 
 
 class Field:
@@ -42,10 +43,11 @@ class Phone(Field):
 class Birthday(Field):
     def valid_date(self, value: str):
         try:
-            obj_datetime = parse(value)
+            # obj_datetime = parse(value)
+            obj_datetime = datetime.strptime(value, '%Y-%m-%d')
             return obj_datetime.date()
-        except Exception:
-            raise TypeError('Wrong data type. Try "dd-mm-yy"')
+        except KeyError:
+            raise TypeError('Wrong data type. Try "yyyy-mm-dd"')
 
     @Field.value.setter
     def value(self, value):
@@ -140,7 +142,7 @@ def input_error(func):
     return wrapper
 
 
-@input_error
+# @input_error
 def command_add():
     name = Name(input("Введіть ім'я: ").title())
     phone = Phone(input('Введіть номер: '))
@@ -209,7 +211,8 @@ def command_days_to_birthday(input_str):
     return result.strip() if result else f'No birthdays in next {days} days'
 
 def main():
-    contact_list.load()
+    if os.path.exists('AdressBook.bin'):
+        contact_list.load()
     print("Доступні команди:'hello','add','change', 'delete', 'search', 'birthday', 'show all','good bye','close','exit'")
     while True:
         input_str = prompt("Enter your command: ",completer=Completer, lexer=RainbowLetter())

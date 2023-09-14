@@ -1,7 +1,7 @@
 import json
 import os
 from datetime import datetime
-from NoteBook.promp_ut import Completer, RainbowLexer, Sort_Completer
+from .promp_ut import Completer, RainbowLexer, Sort_Completer
 from prompt_toolkit import prompt
 from colorama import init, Fore, Style
 

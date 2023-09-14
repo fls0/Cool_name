@@ -1,8 +1,8 @@
-from AdressBook.AB import main as ab_main
-from NoteBook.NB import main as nb_main
-from Map.Map import main as map_main
-from sort.sort import main as sort_main
-from Game.game import main as game_main
+from .AdressBook.AB import main as ab_main
+from .NoteBook.NB import main as nb_main
+from .Map.Map import main as map_main
+from .sort.sort import main as sort_main
+from .Game.game import main as game_main
 import os
 
 def cls():
