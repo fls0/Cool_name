@@ -3,7 +3,7 @@ from setuptools import setup
 
 setup(
     name='Personal_assistant',
-    version='0.0.20',
+    version='0.0.23',
     description='Group-12 team project',
     authors='PythonWizards',
     license='MIT',
@@ -17,5 +17,5 @@ setup(
         'colorama==0.4.4',
         'dill>=0.3.7'
         ],
-    entry_points={'console_scripts': ['pers=Personal_assistant.main:menu']}
+    entry_points={'console_scripts': ['personal-assistant=Personal_assistant.main:menu']}
 )

@@ -96,23 +96,23 @@ def main():
         input_str = prompt("Enter command: ", completer = Completer , lexer = RainbowLetter())
         
         if  input_str.startswith("save_nuclear"):
-            result =command_save('Personal_assistant/Map/coordinates_nuclear.txt','russia_map_nuclear.html')
+            result =command_save('Personal_assistant\Map\coordinates_nuclear.txt','russia_map_nuclear.html')
             print(f"Карта з  прапорцями збережена у файлі {result}.")  
         elif input_str.startswith("save_air"):
-            result = command_save('Personal_assistant/Map/coordinates_air.txt','russia_map_air.html')
+            result = command_save('Personal_assistant\Map\coordinates_air.txt','russia_map_air.html')
             print(f"Карта з  прапорцями збережена у файлі {result}.") 
         elif input_str.startswith("save_admin"):
-            result =command_save('Personal_assistant/Map/coordinates_admin.txt','russia_map_admin.html')
+            result =command_save('Personal_assistant\Map\coordinates_admin.txt','russia_map_admin.html')
             print(f"Карта з  прапорцями збережена у файлі {result}.")   
         elif input_str == "add_nuclear":
             input_str = input("Приклад: 55.7558,37.6176. Введіть нові кординати:")
-            print(add_coordinates('Personal_assistant/Map/coordinates_nuclear.txt', input_str))
+            print(add_coordinates('Personal_assistant\Map\coordinates_nuclear.txt', input_str))
         elif input_str == "add_air":
             input_str = input("Приклад: 55.7558,37.6176. Введіть нові кординати:")
-            print(add_coordinates('Personal_assistant/Map/coordinates_air.txt', input_str))
+            print(add_coordinates('Personal_assistant\Map\coordinates_air.txt', input_str))
         elif input_str == "add_admin":
             input_str = input("Приклад: 55.7558,37.6176. Введіть нові кординати:")
-            print(add_coordinates('Personal_assistant/Map/coordinates_admin.txt', input_str))
+            print(add_coordinates('Personal_assistant\Map\coordinates_admin.txt', input_str))
         elif input_str == "coordinates":
             input_str = input("Приклад: Москва. Введіть назву міста:")
             print(get_coordinates(input_str))         
