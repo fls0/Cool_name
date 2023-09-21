@@ -13,7 +13,7 @@ Group-12 team project "Personal_assistant"
 Відкрити командну строку та перейти в дерикторію з застосунком, вписати комманди:
 pip install -r requirements (встановлює всі нетсандартні бібліоткеи що були використані в коді)
 pip install -e . (встановлює як пакет)
-pers запускає
+personal-assistant запускає
 
 pip uninstall Personal_assistant (видаляє пакет)
 pip uninstall -r requirements (видаляє нетсандартні бібліоткеи що були використані в коді)
